@@ -2,6 +2,8 @@
 {
     public class PayLoadModel
     {
+        #region Auth
+
         public class LoginRequest
         {
             public string? Username { get; set; }
@@ -14,6 +16,10 @@
             public string Username { get; set; } = null!;
             public string Role { get; set; } = null!;
         }
+
+        #endregion
+
+        #region User
 
         public class UserCreateRequest
         {
@@ -31,6 +37,10 @@
             public bool? IsActive { get; set; }
         }
 
+        #endregion
+
+        #region Floor
+
         public class FloorCreateRequest
         {
             public string FloorName { get; set; } = null!;
@@ -41,5 +51,45 @@
             public int Id { get; set; }
             public string FloorName { get; set; } = null!;
         }
+
+        #endregion
+
+        #region Guest
+
+        public class GuestQueryRequest
+        {
+            public int PageIndex { get; set; } = 1;        // Default = page 1
+            public int PageSize { get; set; } = 10;        // Default = 10 records
+            public string? SortBy { get; set; } = "GuestName";            // Column name (e.g. "GuestName", "PassportNo")
+            public bool IsDescending { get; set; } = false;
+        }
+        public class GuestCreateRequest
+        {
+            public string GuestName { get; set; } = null!;
+            public string PassportNo { get; set; } = null!;
+            public int GenderId { get; set; }
+        }
+
+        public class GuestUpdateRequest
+        {
+            public int Id { get; set; }
+            public string? GuestName { get; set; } = null!;
+            public string? PassportNo { get; set; } = null!;
+            public int? GenderId { get; set; }
+        }
+
+        #endregion
+
+        #region Common
+
+        public class PagedResult<T>
+        {
+            public List<T> Items { get; set; } = new();
+            public int TotalCount { get; set; }
+            public int PageIndex { get; set; }
+            public int PageSize { get; set; }
+        }
+
+        #endregion
     }
 }

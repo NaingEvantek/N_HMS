@@ -58,6 +58,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "N_HMS.Controllers.GuestController",
+    "Method": "CreateGuest",
+    "RelativePath": "api/Guest/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BGuestCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.GuestController",
+    "Method": "ListGuests",
+    "RelativePath": "api/Guest/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BGuestQueryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.GuestController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/Guest/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BGuestUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "N_HMS.Controllers.UserController",
     "Method": "CreateUser",
     "RelativePath": "api/User/create",
