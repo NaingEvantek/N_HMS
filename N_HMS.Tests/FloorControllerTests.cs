@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using N_HMS.Controllers;
+using N_HMS.DTO;
 using N_HMS.Interfaces;
 using N_HMS.Models;
 using Newtonsoft.Json.Linq;
@@ -110,24 +111,32 @@ namespace N_HMS.Tests
         [Fact]
         public async Task ListUsers_Should_Return_Ok_With_Floor_List()
         {
-            // Arrange
-            var floors = new List<Floor_Info>
+            var req = new QueryRequest { PageIndex = 1, PageSize = 2, SortBy = "floorname", IsDescending = false };
+            var pagedResult = new PagedResult<FloorDTO>
             {
-                new Floor_Info { Id = 1, Name = "First Floor", Modified_Date = DateTime.UtcNow },
-                new Floor_Info { Id = 2, Name = "Second Floor", Modified_Date = DateTime.UtcNow }
+                PageIndex = 1,
+                PageSize = 2,
+                TotalCount = 3,
+                Items = new List<FloorDTO>
+                {
+                    new FloorDTO { Id = 1, FloorName = "Floor one" },
+                    new FloorDTO { Id = 2, FloorName = "Floor two" }
+                }
             };
-            _mockService.Setup(s => s.GetAllFloorsAsync())
-                        .ReturnsAsync(floors);
+            _mockService.Setup(s => s.GetAllFloorsAsync(req.PageIndex, req.PageSize, req.SortBy, req.IsDescending))
+                        .ReturnsAsync(pagedResult);
 
             // Act
-            var result = await _controller.ListUsers() as OkObjectResult;
+            var result = await _controller.ListFloors(req) as OkObjectResult;
 
             // Assert
             result.Should().NotBeNull();
             result!.StatusCode.Should().Be(200);
 
-            var value = result.Value as IEnumerable<dynamic>;
-            value.Should().HaveCount(2);
+            var value = result.Value as PagedResult<FloorDTO>;
+            value.Should().NotBeNull();
+            value!.Items.Should().HaveCount(2);
+            value.TotalCount.Should().Be(3);
         }
     }
 }

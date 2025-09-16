@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using N_HMS.Database;
+using N_HMS.DTO;
 using N_HMS.Interfaces;
 using N_HMS.Models;
+using static N_HMS.PayLoad.PayLoadModel;
 
 namespace N_HMS.Services
 {
@@ -47,9 +49,47 @@ namespace N_HMS.Services
             return floor;
         }
 
-        public async Task<List<Floor_Info>> GetAllFloorsAsync()
+        public async Task<PagedResult<FloorDTO>> GetAllFloorsAsync(int page_index, int page_size, string? sort_by, bool is_desending)
         {
-            return await _db.Floor_Infos.ToListAsync();
+            var query = _db.Floor_Infos.AsQueryable();
+
+            // Sorting
+            if (!string.IsNullOrEmpty(sort_by))
+            {
+                query = sort_by.ToLower() switch
+                {
+                    "floorname" => is_desending ? query.OrderByDescending(g => g.Name) : query.OrderBy(g => g.Name),
+                    _ => query.OrderBy(g => g.Id) // default sort
+                };
+            }
+            else
+            {
+                query = query.OrderBy(g => g.Id); // default if SortBy is null
+            }
+
+            // Total count
+            var totalCount = await query.CountAsync();
+
+            // Pagination
+            var items = await query
+                .Skip((page_index - 1) * page_size)
+                .Take(page_size)
+                .Select((g,index) => new FloorDTO
+                {
+                    No = ((page_index - 1) * page_size) + index + 1,
+                    Id = g.Id,
+                    FloorName = g.Name,
+                    ModifiedDate = g.Modified_Date ?? DateTime.MinValue
+                })
+                .ToListAsync();
+
+            return new PagedResult<FloorDTO>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageIndex = page_index,
+                PageSize = page_size
+            };
         }
     }
 }

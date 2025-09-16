@@ -49,16 +49,11 @@ namespace N_HMS.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> ListUsers()
+        public async Task<IActionResult> ListFloors([FromBody]QueryRequest req)
         {
-            var floors = await _floorService.GetAllFloorsAsync();
-            var result = floors.Select(f => new
-            {
-                f.Id,
-                f.Name,
-                f.Modified_Date
-            });
-            return Ok(result);
+            var floors = await _floorService.GetAllFloorsAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
+           
+            return Ok(floors);
         }
     }
 }

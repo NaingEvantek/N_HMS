@@ -3,38 +3,30 @@
   "WorkspaceRootPath": "D:\\Github\\Naing\\N_HMS\\N_HMS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\payload\\payloadmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:payload\\payloadmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F4CD6B10-BB3D-43DB-9806-B1689B2E2708}|..\\N_HMS.Tests\\N_HMS.Tests.csproj|d:\\github\\naing\\n_hms\\n_hms.tests\\usercontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F4CD6B10-BB3D-43DB-9806-B1689B2E2708}|..\\N_HMS.Tests\\N_HMS.Tests.csproj|d:\\github\\naing\\n_hms\\n_hms.tests\\floorcontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F4CD6B10-BB3D-43DB-9806-B1689B2E2708}|..\\N_HMS.Tests\\N_HMS.Tests.csproj|d:\\github\\naing\\n_hms\\n_hms.tests\\guestcontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\services\\floorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:services\\floorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\controllers\\guestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:controllers\\guestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\controllers\\floorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:controllers\\floorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\interfaces\\ifloorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:interfaces\\ifloorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\services\\guestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:services\\guestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|d:\\github\\naing\\n_hms\\n_hms\\dto\\floordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C779D52-88E8-4471-BEC5-580F6B3EF143}|N_HMS.csproj|solutionrelative:dto\\floordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,84 +36,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GuestControllerTests.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\GuestControllerTests.cs",
-              "RelativeDocumentMoniker": "..\\N_HMS.Tests\\GuestControllerTests.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\GuestControllerTests.cs*",
-              "RelativeToolTip": "..\\N_HMS.Tests\\GuestControllerTests.cs*",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAowIQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "FloorControllerTests.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\FloorControllerTests.cs",
+              "RelativeDocumentMoniker": "..\\N_HMS.Tests\\FloorControllerTests.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\FloorControllerTests.cs",
+              "RelativeToolTip": "..\\N_HMS.Tests\\FloorControllerTests.cs",
+              "ViewState": "AgIAAH4AAAAAAAAAAIAwwIwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:28:53.881Z",
+              "WhenOpened": "2025-09-16T06:49:32.029Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserControllerTests.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\UserControllerTests.cs",
-              "RelativeDocumentMoniker": "..\\N_HMS.Tests\\UserControllerTests.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\UserControllerTests.cs",
-              "RelativeToolTip": "..\\N_HMS.Tests\\UserControllerTests.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAgwFgAAAAAAAAAAAAAAA==",
+              "Title": "GuestControllerTests.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\GuestControllerTests.cs",
+              "RelativeDocumentMoniker": "..\\N_HMS.Tests\\GuestControllerTests.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS.Tests\\GuestControllerTests.cs",
+              "RelativeToolTip": "..\\N_HMS.Tests\\GuestControllerTests.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAswIsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:28:46.94Z",
+              "WhenOpened": "2025-09-16T06:49:21.945Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\UserController.cs*",
-              "RelativeToolTip": "Controllers\\UserController.cs*",
-              "ViewState": "AgIAACYAAAAAAAAAAAAgwDQAAAB0AAAAAAAAAA==",
+              "Title": "FloorController.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\FloorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FloorController.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\FloorController.cs",
+              "RelativeToolTip": "Controllers\\FloorController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwDkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:27:35.894Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PayLoadModel.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\PayLoad\\PayLoadModel.cs",
-              "RelativeDocumentMoniker": "PayLoad\\PayLoadModel.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\PayLoad\\PayLoadModel.cs",
-              "RelativeToolTip": "PayLoad\\PayLoadModel.cs",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAIwFMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:26:42.349Z",
+              "WhenOpened": "2025-09-16T06:48:32.748Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "GuestController.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\GuestController.cs",
-              "RelativeDocumentMoniker": "Controllers\\GuestController.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Controllers\\GuestController.cs",
-              "RelativeToolTip": "Controllers\\GuestController.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAgwDoAAAAFAAAAAAAAAA==",
+              "Title": "IFloorService.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Interfaces\\IFloorService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\IFloorService.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Interfaces\\IFloorService.cs",
+              "RelativeToolTip": "Interfaces\\IFloorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAB5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:26:36.292Z",
+              "WhenOpened": "2025-09-16T06:48:12.805Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IUserService.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Interfaces\\IUserService.cs",
-              "RelativeDocumentMoniker": "Interfaces\\IUserService.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Interfaces\\IUserService.cs",
-              "RelativeToolTip": "Interfaces\\IUserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "FloorDTO.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\DTO\\FloorDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\FloorDTO.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\DTO\\FloorDTO.cs",
+              "RelativeToolTip": "DTO\\FloorDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:25:39.134Z",
+              "WhenOpened": "2025-09-16T06:44:44.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GuestService.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\GuestService.cs",
+              "RelativeDocumentMoniker": "Services\\GuestService.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\GuestService.cs",
+              "RelativeToolTip": "Services\\GuestService.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAQwGgAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T06:44:26.565Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FloorService.cs",
+              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\FloorService.cs",
+              "RelativeDocumentMoniker": "Services\\FloorService.cs",
+              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\FloorService.cs",
+              "RelativeToolTip": "Services\\FloorService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAkwDwAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T06:44:13.799Z",
               "EditorCaption": ""
             },
             {
@@ -131,45 +136,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GuestService.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\GuestService.cs",
-              "RelativeDocumentMoniker": "Services\\GuestService.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\GuestService.cs",
-              "RelativeToolTip": "Services\\GuestService.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAAwE8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:21:11.34Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UserDTO.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\DTO\\UserDTO.cs",
-              "RelativeDocumentMoniker": "DTO\\UserDTO.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\DTO\\UserDTO.cs",
-              "RelativeToolTip": "DTO\\UserDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:19:43.199Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "Services\\UserService.cs",
-              "ToolTip": "D:\\Github\\Naing\\N_HMS\\N_HMS\\Services\\UserService.cs",
-              "RelativeToolTip": "Services\\UserService.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAkwFcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T06:18:56.296Z",
-              "EditorCaption": ""
             }
           ]
         }
