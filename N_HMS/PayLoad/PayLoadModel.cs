@@ -30,5 +30,16 @@
             public int? RoleId { get; set; }
             public bool? IsActive { get; set; }
         }
+
+        public class FloorCreateRequest
+        {
+            public string FloorName { get; set; } = null!;
+        }
+
+        public class FloorUpdateRequest
+        {
+            public int Id { get; set; }
+            public string FloorName { get; set; } = null!;
+        }
     }
 }

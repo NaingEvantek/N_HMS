@@ -168,3 +168,4 @@ D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\refint\N_HMS.dll
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.pdb
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.genruntimeconfig.cache
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\ref\N_HMS.dll
+D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.sourcelink.json
