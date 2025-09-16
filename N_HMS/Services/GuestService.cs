@@ -43,7 +43,7 @@ namespace N_HMS.Services
             if (!string.IsNullOrEmpty(guest_name))
             {
                 if (await _db.User_Infos.AnyAsync(u => u.User_Name == guest_name && u.Id != id))
-                    throw new Exception("Username already exists");
+                    throw new Exception("Guest Name already exists");
                 guest.Name = guest_name;               
             }
 
