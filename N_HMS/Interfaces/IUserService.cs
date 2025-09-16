@@ -1,4 +1,6 @@
-﻿using N_HMS.Models;
+﻿using N_HMS.DTO;
+using N_HMS.Models;
+using static N_HMS.PayLoad.PayLoadModel;
 
 namespace N_HMS.Interfaces
 {
@@ -6,6 +8,6 @@ namespace N_HMS.Interfaces
     {
         Task<User_Info> CreateUserAsync(string userName, string password, int roleId);
         Task<User_Info?> UpdateUserAsync(int id, string? userName, string? password, int? roleId, bool? isActive);
-        Task<List<User_Info>> GetAllUsersAsync();
+        Task<PagedResult<UserDTO>> GetAllUsersAsync(int page_index, int page_size, string? sort_by, bool is_desending);
     }
 }

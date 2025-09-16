@@ -50,7 +50,7 @@ namespace N_HMS.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("list")]
-        public async Task<IActionResult> ListGuests([FromBody]GuestQueryRequest req)
+        public async Task<IActionResult> ListGuests([FromBody] QueryRequest req)
         {
             var users = await _guestService.GetAllGuestsAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
            

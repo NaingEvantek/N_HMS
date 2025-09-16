@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using N_HMS.Database;
+using N_HMS.DTO;
 using N_HMS.Interfaces;
 using N_HMS.Models;
+using static N_HMS.PayLoad.PayLoadModel;
 
 namespace N_HMS.Services
 {
@@ -61,9 +63,51 @@ namespace N_HMS.Services
             return user;
         }
 
-        public async Task<List<User_Info>> GetAllUsersAsync()
+        public async Task<PagedResult<UserDTO>> GetAllUsersAsync(int page_index, int page_size, string? sort_by, bool is_desending)
         {
-            return await _db.User_Infos.Include(u => u.Role).ToListAsync();
+            var query = _db.User_Infos.Include(u => u.Role).AsQueryable();
+
+            // Sorting
+            if (!string.IsNullOrEmpty(sort_by))
+            {
+                query = sort_by.ToLower() switch
+                {
+                    "username" => is_desending ? query.OrderByDescending(g => g.User_Name) : query.OrderBy(g => g.User_Name),
+                    "isactive" => is_desending ? query.OrderByDescending(g => g.IsActive) : query.OrderBy(g => g.IsActive),
+                    "roleid" => is_desending ? query.OrderByDescending(g => g.Role_Id) : query.OrderBy(g => g.Role_Id),
+                    _ => query.OrderBy(g => g.User_Name) // default sort
+                };
+            }
+            else
+            {
+                query = query.OrderBy(g => g.Id); // default if SortBy is null
+            }
+
+            // Total count
+            var totalCount = await query.CountAsync();
+
+            // Pagination
+            var items = await query
+                .Skip((page_index - 1) * page_size)
+                .Take(page_size)
+                .Select(g => new UserDTO
+                {
+                    Id = g.Id,
+                    User_Name = g.User_Name,
+                    Role_Id = g.Role_Id,
+                    Role_Name = g.Role.Name,
+                    IsActive = g.IsActive,
+                    Created_Date = g.Created_Date
+                })
+                .ToListAsync();
+
+            return new PagedResult<UserDTO>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageIndex = page_index,
+                PageSize = page_size
+            };
         }
 
     }

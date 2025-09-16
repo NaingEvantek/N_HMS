@@ -56,13 +56,6 @@
 
         #region Guest
 
-        public class GuestQueryRequest
-        {
-            public int PageIndex { get; set; } = 1;        // Default = page 1
-            public int PageSize { get; set; } = 10;        // Default = 10 records
-            public string? SortBy { get; set; } = "GuestName";            // Column name (e.g. "GuestName", "PassportNo")
-            public bool IsDescending { get; set; } = false;
-        }
         public class GuestCreateRequest
         {
             public string GuestName { get; set; } = null!;
@@ -81,6 +74,13 @@
         #endregion
 
         #region Common
+        public class QueryRequest
+        {
+            public int PageIndex { get; set; } = 1;
+            public int PageSize { get; set; } = 10;
+            public string? SortBy { get; set; }
+            public bool IsDescending { get; set; } = false;
+        }
 
         public class PagedResult<T>
         {

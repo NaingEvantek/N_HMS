@@ -48,18 +48,10 @@ namespace N_HMS.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> ListUsers()
+        public async Task<IActionResult> ListUsers([FromBody] QueryRequest req)
         {
-            var users = await _userService.GetAllUsersAsync();
-            var result = users.Select(u => new
-            {
-                u.Id,
-                u.User_Name,
-                RoleName = u.Role?.Name,
-                u.IsActive,
-                u.Created_Date
-            });
-            return Ok(result);
+            var users = await _userService.GetAllUsersAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
+            return Ok(users);
         }
     }
 }

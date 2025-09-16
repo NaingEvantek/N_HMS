@@ -112,7 +112,7 @@ namespace N_HMS.Tests
         public async Task ListGuests_Should_Return_Ok_With_PagedResult()
         {
             // Arrange
-            var req = new GuestQueryRequest { PageIndex = 1, PageSize = 2, SortBy = "GuestName", IsDescending = false };
+            var req = new QueryRequest { PageIndex = 1, PageSize = 2, SortBy = "GuestName", IsDescending = false };
             var pagedResult = new PagedResult<GuestDTO>
             {
                 PageIndex = 1,

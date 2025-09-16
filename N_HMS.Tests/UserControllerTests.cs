@@ -8,6 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using N_HMS.Controllers;
+using N_HMS.DTO;
 using N_HMS.Interfaces;
 using N_HMS.Models;
 using Newtonsoft.Json.Linq;
@@ -68,23 +69,33 @@ namespace N_HMS.Tests
         [Fact]
         public async Task ListUsers_Should_Return_User_List()
         {
-            // Arrange
-            var users = new List<User_Info>
+            var req = new QueryRequest { PageIndex = 1, PageSize = 2, SortBy = "username", IsDescending = false };
+            var pagedResult = new PagedResult<UserDTO>
             {
-                new User_Info { Id = 1, User_Name = "user1", IsActive = true, Role = new Role_Info { Name = "Admin" }, Created_Date = DateTime.UtcNow },
-                new User_Info { Id = 2, User_Name = "user2", IsActive = false, Role = new Role_Info { Name = "User" }, Created_Date = DateTime.UtcNow }
+                PageIndex = 1,
+                PageSize = 2,
+                TotalCount = 3,
+                Items = new List<UserDTO>
+                {
+                    new UserDTO { Id = 1, User_Name = "John" ,Role_Name="Admin",Role_Id=1 ,IsActive=true},
+                    new UserDTO { Id = 2, User_Name = "Jane" , Role_Name="User" ,Role_Id=2,IsActive=true}
+                }
             };
-
-            _mockService.Setup(s => s.GetAllUsersAsync()).ReturnsAsync(users);
+            _mockService.Setup(s => s.GetAllUsersAsync(req.PageIndex, req.PageSize, req.SortBy, req.IsDescending))
+                        .ReturnsAsync(pagedResult);
 
             // Act
-            var result = await _controller.ListUsers() as OkObjectResult;
+            var result = await _controller.ListUsers(req) as OkObjectResult;
+
 
             // Assert
             result.Should().NotBeNull();
             result!.StatusCode.Should().Be(200);
-            var value = result.Value as IEnumerable<dynamic>;
-            value.Should().HaveCount(2);
+
+            var value = result.Value as PagedResult<UserDTO>;
+            value.Should().NotBeNull();
+            value!.Items.Should().HaveCount(2);
+            value.TotalCount.Should().Be(3);
         }
     }
 }
