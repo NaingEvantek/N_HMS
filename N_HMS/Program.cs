@@ -23,6 +23,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFloorService, FloorService>();
 builder.Services.AddScoped<IGuestService, GuestService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new Exception("JWT key missing");
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);

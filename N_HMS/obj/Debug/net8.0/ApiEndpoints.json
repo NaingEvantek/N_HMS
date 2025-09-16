@@ -33,12 +33,18 @@
   },
   {
     "ContainingType": "N_HMS.Controllers.FloorController",
-    "Method": "ListUsers",
+    "Method": "ListFloors",
     "RelativePath": "api/Floor/list",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BQueryRequest",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -83,7 +89,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "N_HMS.PayLoad.PayLoadModel\u002BGuestQueryRequest",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BQueryRequest",
         "IsRequired": true
       }
     ],
@@ -100,6 +106,54 @@
       {
         "Name": "req",
         "Type": "N_HMS.PayLoad.PayLoadModel\u002BGuestUpdateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "CreateRoom",
+    "RelativePath": "api/Room/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BRoomCreateRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "ListRooms",
+    "RelativePath": "api/Room/list",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BQueryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "UpdateRoom",
+    "RelativePath": "api/Room/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BRoomUpdateRequest",
         "IsRequired": true
       }
     ],
@@ -128,7 +182,13 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BQueryRequest",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

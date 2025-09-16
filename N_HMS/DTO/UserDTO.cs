@@ -2,6 +2,7 @@
 {
     public class UserDTO
     {
+        public int No { get; set; }
         public int Id { get; set; }
 
         public string User_Name { get; set; } = string.Empty;

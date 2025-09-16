@@ -8,6 +8,6 @@ namespace N_HMS.Interfaces
     {
         Task<Floor_Info> CreateFloorAsync(string floor_name);
         Task<Floor_Info?> UpdateFloorAsync(int id, string? floor_name);
-        Task<PagedResult<FloorDTO>> GetAllFloorsAsync(int page_index, int page_size, string? sort_by, bool is_desending);
+        Task<PagedResult<FloorDTO>> GetAllFloorsAsync(QueryRequest req);
     }
 }

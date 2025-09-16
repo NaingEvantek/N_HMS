@@ -38,8 +38,8 @@ namespace N_HMS.Controllers
         {
             try
             {
-                var user = await _floorService.UpdateFloorAsync(req.Id, req.FloorName);
-                if (user == null) return NotFound(new { error = "Floor not found" });
+                var floor = await _floorService.UpdateFloorAsync(req.Id, req.FloorName);
+                if (floor == null) return NotFound(new { error = "Floor not found" });
                 return Ok(new { message = "Floor updated successfully" });
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace N_HMS.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> ListFloors([FromBody]QueryRequest req)
         {
-            var floors = await _floorService.GetAllFloorsAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
+            var floors = await _floorService.GetAllFloorsAsync(req);
            
             return Ok(floors);
         }

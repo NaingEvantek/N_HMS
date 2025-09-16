@@ -14,4 +14,6 @@ public partial class Currency_Type
     public string Symbol { get; set; }
 
     public DateTime? Modify_Date { get; set; }
+
+    public virtual ICollection<Room_Info> Room_Infos { get; set; } = new List<Room_Info>();
 }

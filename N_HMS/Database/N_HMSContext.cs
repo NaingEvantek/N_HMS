@@ -125,6 +125,10 @@ public partial class N_HMSContext : DbContext
             entity.Property(e => e.Price_Per_Day).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Room_Name).HasMaxLength(500);
 
+            entity.HasOne(d => d.Currency_Type).WithMany(p => p.Room_Infos)
+                .HasForeignKey(d => d.Currency_Type_Id)
+                .HasConstraintName("FK_Room_Info_Currency_Type");
+
             entity.HasOne(d => d.Floor).WithMany(p => p.Room_Infos)
                 .HasForeignKey(d => d.Floor_Id)
                 .HasConstraintName("FK_Room_Info_Floor_Info");

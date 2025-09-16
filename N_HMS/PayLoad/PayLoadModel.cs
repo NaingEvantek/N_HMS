@@ -73,6 +73,33 @@
 
         #endregion
 
+        #region Room
+
+        public class RoomCreateRequest
+        {
+            public string RoomName { get; set; } = null!;
+            public int FloorId { get; set; } 
+            public int RoomTypeId { get; set; }
+            public decimal PricePerDay { get; set; }
+            public int CurrencyTypeId { get; set; }
+            public int RoomCapacityAdult { get; set; }
+            public int RoomCapacityChild { get; set; }
+        }
+
+        public class RoomUpdateRequest
+        {
+            public int Id { get; set; }
+            public string? RoomName { get; set; } = null!;
+            public int? FloorId { get; set; }
+            public int? RoomTypeId { get; set; }
+            public int? RoomStatusId { get; set; }
+            public decimal? PricePerDay { get; set; }
+            public int? CurrencyTypeId { get; set; }
+            public int? RoomCapacityAdult { get; set; }
+            public int? RoomCapacityChild { get; set; }
+        }
+        #endregion
+
         #region Common
         public class QueryRequest
         {

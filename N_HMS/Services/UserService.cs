@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using N_HMS.Database;
 using N_HMS.DTO;
 using N_HMS.Interfaces;
@@ -63,50 +65,59 @@ namespace N_HMS.Services
             return user;
         }
 
-        public async Task<PagedResult<UserDTO>> GetAllUsersAsync(int page_index, int page_size, string? sort_by, bool is_desending)
+        public async Task<PagedResult<UserDTO>> GetAllUsersAsync(QueryRequest req)
         {
-            var query = _db.User_Infos.Include(u => u.Role).AsQueryable();
+            var query = _db.User_Infos
+                        .Include(u => u.Role)
+                        .AsQueryable();
 
-            // Sorting
-            if (!string.IsNullOrEmpty(sort_by))
+            // Sorting map
+            var sortMap = new Dictionary<string, Expression<Func<User_Info, object>>>(StringComparer.OrdinalIgnoreCase)
             {
-                query = sort_by.ToLower() switch
-                {
-                    "username" => is_desending ? query.OrderByDescending(g => g.User_Name) : query.OrderBy(g => g.User_Name),
-                    "isactive" => is_desending ? query.OrderByDescending(g => g.IsActive) : query.OrderBy(g => g.IsActive),
-                    "roleid" => is_desending ? query.OrderByDescending(g => g.Role_Id) : query.OrderBy(g => g.Role_Id),
-                    _ => query.OrderBy(g => g.User_Name) // default sort
-                };
+                ["username"] = u => u.User_Name,
+                ["isactive"] = u => u.IsActive??false,
+                ["roleid"] = u => u.Role_Id??0
+            };
+
+            // Apply sorting
+            if (!string.IsNullOrEmpty(req.SortBy) && sortMap.TryGetValue(req.SortBy, out var sortExpr))
+            {
+                query = req.IsDescending ? query.OrderByDescending(sortExpr) : query.OrderBy(sortExpr);
             }
             else
             {
-                query = query.OrderBy(g => g.Id); // default if SortBy is null
+                query = query.OrderBy(u => u.Id); // default
             }
 
             // Total count
             var totalCount = await query.CountAsync();
 
-            // Pagination
-            var items = await query
-                .Skip((page_index - 1) * page_size)
-                .Take(page_size)
-                .Select(g => new UserDTO
+            var data = await query
+                .Skip((req.PageIndex - 1) * req.PageSize)
+                .Take(req.PageSize)
+                .Select(u => new UserDTO
                 {
-                    Id = g.Id,
-                    User_Name = g.User_Name,
-                    Role_Id = g.Role_Id,
-                    Role_Name = g.Role.Name,
-                    IsActive = g.IsActive,
-                    Created_Date = g.Created_Date
+                    Id = u.Id,
+                    User_Name = u.User_Name,
+                    Role_Id = u.Role_Id,
+                    Role_Name = u.Role.Name,
+                    IsActive = u.IsActive,
+                    Created_Date = u.Created_Date
                 })
                 .ToListAsync();
+
+            var items = data.Select((u, index) =>
+            {
+                u.No = ((req.PageIndex - 1) * req.PageSize) + index + 1;
+                return u;
+            }).ToList();
 
             return new PagedResult<UserDTO>
             {
                 Items = items,
                 TotalCount = totalCount,
-                PageIndex = page_index,
-                PageSize = page_size
+                PageIndex = req.PageIndex,
+                PageSize = req.PageSize
             };
         }
 

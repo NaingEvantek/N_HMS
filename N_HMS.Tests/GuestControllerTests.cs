@@ -124,7 +124,7 @@ namespace N_HMS.Tests
                     new GuestDTO { Id = 2, GuestName = "Jane" }
                 }
             };
-            _mockService.Setup(s => s.GetAllGuestsAsync(req.PageIndex, req.PageSize, req.SortBy, req.IsDescending))
+            _mockService.Setup(s => s.GetAllGuestsAsync(req))
                         .ReturnsAsync(pagedResult);
 
             // Act

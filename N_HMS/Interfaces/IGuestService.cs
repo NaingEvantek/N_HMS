@@ -8,6 +8,6 @@ namespace N_HMS.Interfaces
     {
         Task<Guest_Info> CreateGuestAsync(string guest_name, string passport_no, int gender_id);
         Task<Guest_Info?> UpdateGuestAsync(int id, string? guest_name, string? passport_no, int? gender_id);
-        Task<PagedResult<GuestDTO>> GetAllGuestsAsync(int page_index, int page_size, string? sort_by, bool is_desending);
+        Task<PagedResult<GuestDTO>> GetAllGuestsAsync(QueryRequest req);
     }
 }

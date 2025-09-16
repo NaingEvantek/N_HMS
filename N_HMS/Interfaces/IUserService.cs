@@ -8,6 +8,6 @@ namespace N_HMS.Interfaces
     {
         Task<User_Info> CreateUserAsync(string userName, string password, int roleId);
         Task<User_Info?> UpdateUserAsync(int id, string? userName, string? password, int? roleId, bool? isActive);
-        Task<PagedResult<UserDTO>> GetAllUsersAsync(int page_index, int page_size, string? sort_by, bool is_desending);
+        Task<PagedResult<UserDTO>> GetAllUsersAsync(QueryRequest req);
     }
 }

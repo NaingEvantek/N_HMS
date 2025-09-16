@@ -52,7 +52,7 @@ namespace N_HMS.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> ListGuests([FromBody] QueryRequest req)
         {
-            var users = await _guestService.GetAllGuestsAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
+            var users = await _guestService.GetAllGuestsAsync(req);
            
             return Ok(users);
         }

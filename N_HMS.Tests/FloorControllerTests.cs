@@ -123,7 +123,7 @@ namespace N_HMS.Tests
                     new FloorDTO { Id = 2, FloorName = "Floor two" }
                 }
             };
-            _mockService.Setup(s => s.GetAllFloorsAsync(req.PageIndex, req.PageSize, req.SortBy, req.IsDescending))
+            _mockService.Setup(s => s.GetAllFloorsAsync(req))
                         .ReturnsAsync(pagedResult);
 
             // Act

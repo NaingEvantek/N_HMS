@@ -27,6 +27,8 @@ public partial class Room_Info
 
     public DateTime? Modify_Date { get; set; }
 
+    public virtual Currency_Type Currency_Type { get; set; }
+
     public virtual Floor_Info Floor { get; set; }
 
     public virtual Room_Status Room_Status { get; set; }

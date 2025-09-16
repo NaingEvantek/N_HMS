@@ -50,7 +50,7 @@ namespace N_HMS.Controllers
         [HttpGet("list")]
         public async Task<IActionResult> ListUsers([FromBody] QueryRequest req)
         {
-            var users = await _userService.GetAllUsersAsync(req.PageIndex,req.PageSize,req.SortBy,req.IsDescending);
+            var users = await _userService.GetAllUsersAsync(req);
             return Ok(users);
         }
     }

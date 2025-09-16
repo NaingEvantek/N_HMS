@@ -2,6 +2,7 @@
 {
     public class GuestDTO
     {
+        public int No { get; set; }
         public int Id { get; set; }
         public string GuestName { get; set; } = null!;
         public string PassportNo { get; set; } = null!;

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Globalization;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using N_HMS.Database;
 using N_HMS.DTO;
 using N_HMS.Interfaces;
@@ -49,46 +51,53 @@ namespace N_HMS.Services
             return floor;
         }
 
-        public async Task<PagedResult<FloorDTO>> GetAllFloorsAsync(int page_index, int page_size, string? sort_by, bool is_desending)
+        public async Task<PagedResult<FloorDTO>> GetAllFloorsAsync(QueryRequest req)
         {
             var query = _db.Floor_Infos.AsQueryable();
 
-            // Sorting
-            if (!string.IsNullOrEmpty(sort_by))
+            // Sorting map
+            var sortMap = new Dictionary<string, Expression<Func<Floor_Info, object>>>(StringComparer.OrdinalIgnoreCase)
             {
-                query = sort_by.ToLower() switch
-                {
-                    "floorname" => is_desending ? query.OrderByDescending(g => g.Name) : query.OrderBy(g => g.Name),
-                    _ => query.OrderBy(g => g.Id) // default sort
-                };
+                ["floorname"] = f => f.Name
+            };
+
+            // Apply sorting
+            if (!string.IsNullOrEmpty(req.SortBy) && sortMap.TryGetValue(req.SortBy, out var sortExpr))
+            {
+                query = req.IsDescending ? query.OrderByDescending(sortExpr) : query.OrderBy(sortExpr);
             }
             else
             {
-                query = query.OrderBy(g => g.Id); // default if SortBy is null
+                query = query.OrderBy(f => f.Id); // default
             }
 
-            // Total count
             var totalCount = await query.CountAsync();
 
-            // Pagination
-            var items = await query
-                .Skip((page_index - 1) * page_size)
-                .Take(page_size)
-                .Select((g,index) => new FloorDTO
+            // Get page data
+            var data = await query
+                .Skip((req.PageIndex - 1) * req.PageSize)
+                .Take(req.PageSize)
+                .Select(f => new FloorDTO
                 {
-                    No = ((page_index - 1) * page_size) + index + 1,
-                    Id = g.Id,
-                    FloorName = g.Name,
-                    ModifiedDate = g.Modified_Date ?? DateTime.MinValue
+                    Id = f.Id,
+                    FloorName = f.Name,
+                    ModifiedDate = f.Modified_Date ?? DateTime.MinValue
                 })
                 .ToListAsync();
+
+            // Add row numbers in memory
+            var items = data.Select((f, index) =>
+            {
+                f.No = ((req.PageIndex - 1) * req.PageSize) + index + 1;
+                return f;
+            }).ToList();
 
             return new PagedResult<FloorDTO>
             {
                 Items = items,
                 TotalCount = totalCount,
-                PageIndex = page_index,
-                PageSize = page_size
+                PageIndex = req.PageIndex,
+                PageSize = req.PageSize
             };
         }
     }

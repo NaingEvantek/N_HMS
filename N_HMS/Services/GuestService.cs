@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using System.Linq.Expressions;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using N_HMS.Database;
 using N_HMS.DTO;
@@ -58,33 +59,37 @@ namespace N_HMS.Services
             return guest;
         }
 
-        public async Task<PagedResult<GuestDTO>> GetAllGuestsAsync(int page_index,int page_size,string? sort_by,bool is_desending)
+        public async Task<PagedResult<GuestDTO>> GetAllGuestsAsync(QueryRequest req)
         {
-            var query = _db.Guest_Infos.Include(u => u.Gender).AsQueryable();
+            var query = _db.Guest_Infos
+          .Include(g => g.Gender)
+          .AsQueryable();
 
-            // Sorting
-            if (!string.IsNullOrEmpty(sort_by))
+            // Sorting map
+            var sortMap = new Dictionary<string, Expression<Func<Guest_Info, object>>>(StringComparer.OrdinalIgnoreCase)
             {
-                query = sort_by.ToLower() switch
-                {
-                    "guestname" => is_desending ? query.OrderByDescending(g => g.Name) : query.OrderBy(g => g.Name),
-                    "passportno" => is_desending ? query.OrderByDescending(g => g.Passport_No) : query.OrderBy(g => g.Passport_No),
-                    "genderid" => is_desending ? query.OrderByDescending(g => g.Gender_Id) : query.OrderBy(g => g.Gender_Id),
-                    _ => query.OrderBy(g => g.Name) // default sort
-                };
+                ["guestname"] = g => g.Name,
+                ["passportno"] = g => g.Passport_No,
+                ["genderid"] = g => g.Gender_Id??0
+            };
+
+            // Apply sorting
+            if (!string.IsNullOrEmpty(req.SortBy) && sortMap.TryGetValue(req.SortBy, out var sortExpr))
+            {
+                query = req.IsDescending ? query.OrderByDescending(sortExpr) : query.OrderBy(sortExpr);
             }
             else
             {
-                query = query.OrderBy(g => g.Name); // default if SortBy is null
+                query = query.OrderBy(g => g.Name); // default
             }
 
             // Total count
             var totalCount = await query.CountAsync();
 
-            // Pagination
-            var items = await query
-                .Skip((page_index - 1) * page_size)
-                .Take(page_size)
+            // Pagination + projection
+            var data = await query
+                .Skip((req.PageIndex - 1) * req.PageSize)
+                .Take(req.PageSize)
                 .Select(g => new GuestDTO
                 {
                     Id = g.Id,
@@ -96,12 +101,19 @@ namespace N_HMS.Services
                 })
                 .ToListAsync();
 
+            // Add row numbers in memory
+            var items = data.Select((g, index) =>
+            {
+                g.No = ((req.PageIndex - 1) * req.PageSize) + index + 1;
+                return g;
+            }).ToList();
+
             return new PagedResult<GuestDTO>
             {
                 Items = items,
                 TotalCount = totalCount,
-                PageIndex =page_index,
-                PageSize = page_size
+                PageIndex = req.PageIndex,
+                PageSize = req.PageSize
             };
         }
     }
