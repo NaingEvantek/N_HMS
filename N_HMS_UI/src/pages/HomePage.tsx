@@ -1,29 +1,52 @@
-import { Box, Grid, GridItem, HStack, Show, Text } from "@chakra-ui/react";
+import { Grid, GridItem, Show } from "@chakra-ui/react";
 import React from "react";
+import SideBar from "../components/SideBar";
+import { Outlet } from "react-router-dom";
 
 const HomePage = () => {
+  const role = localStorage.getItem("role");
+
+  // 👉 hide sidebar if role is "Admin"
+  const showSidebar = role !== "User";
+
   return (
     <Grid
       templateAreas={{
         base: `"main"`,
-        lg: `"aside main"`, // >1024px
+        lg: showSidebar ? `"aside main"` : `"main"`, // sidebar only if not admin
       }}
       templateColumns={{
         base: "1fr",
-        lg: "200px 1fr",
+        lg: showSidebar ? "250px 1fr" : "1fr", // adjust column width
       }}
+      height={"83vh"}
     >
       <Show above="lg">
-        {/* to show in which screen layout */}
-        <GridItem area="aside" paddingX={5}></GridItem>
+        {showSidebar && (
+          <GridItem
+            area="aside"
+            paddingX={5}
+            top={0}
+            position={"sticky"}
+            overflowY={"hidden"}
+          >
+            <SideBar />
+          </GridItem>
+        )}
       </Show>
-      <GridItem area="main">
-        <Box paddingLeft={2}>
-          <HStack spacing={5} marginBottom={5}>
-            <Text>Filter</Text>
-          </HStack>
-        </Box>
-        <Text>Room Area</Text>
+
+      <GridItem
+        area="main"
+        borderRadius="10px"
+        bg="gray.800"
+        height="84vh"
+        display="flex"
+        flexDirection="column"
+        overflowY="auto"
+        padding={4}
+        marginRight="15px"
+      >
+        <Outlet />
       </GridItem>
     </Grid>
   );

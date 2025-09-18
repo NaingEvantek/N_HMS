@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import logo from "../assets/logo.webp";
+import { HStack, Image, Spinner } from "@chakra-ui/react";
 import {
   Box,
   Button,
@@ -16,7 +18,8 @@ const LoginPage = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -26,10 +29,19 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email, password);
-    navigate("/");
+    setIsLoading(true);
+    setError("");
+
+    try {
+      await login(username, password);
+      navigate("/");
+    } catch (err: any) {
+      setError(err?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -43,8 +55,15 @@ const LoginPage = () => {
       boxShadow="lg"
       bg="white"
     >
-      <Heading mb={6} textAlign="center" color={"gray.900"}>
-        Login
+      <Heading
+        mb={6}
+        textAlign="center"
+        color={"gray.900"}
+        justifyContent="center"
+      >
+        <HStack justify="center">
+          <Image src={logo} height="75px" objectFit="cover" />
+        </HStack>
       </Heading>
 
       {error && (
@@ -55,18 +74,21 @@ const LoginPage = () => {
 
       <form onSubmit={handleSubmit}>
         <VStack spacing={4}>
-          <FormControl id="email">
-            <FormLabel color={"gray.900"}>Email</FormLabel>
+          <FormControl id="username">
+            <FormLabel color={"gray.900"}>User Name</FormLabel>
             <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              type="text"
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter your UserName"
               variant="filled"
               color="gray.900"
+              bg="white"
               borderColor={"gray.300"}
               _placeholder={{ color: "gray.500" }}
-              autoComplete="new-password"
+              autoComplete="off"
+              disabled={isLoading}
+              autoFocus
               required
             />
           </FormControl>
@@ -79,15 +101,24 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               color="gray.900"
+              bg="white"
               borderColor={"gray.300"}
               _placeholder={{ color: "gray.500" }}
               variant="filled"
+              disabled={isLoading}
               required
             />
           </FormControl>
 
-          <Button colorScheme="blue" type="submit" width="full" mt={2}>
-            Login
+          <Button
+            colorScheme="blue"
+            type="submit"
+            width="full"
+            mt={2}
+            disabled={isLoading}
+            loadingText="Logging in..."
+          >
+            {isLoading ? <Spinner /> : "Login"}
           </Button>
         </VStack>
       </form>

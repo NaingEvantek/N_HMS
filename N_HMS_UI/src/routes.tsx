@@ -5,6 +5,9 @@ import Layout from "./pages/Layout";
 import LoginPage from "./pages/LoginPage";
 import { ProtectedRoute } from "./pages/ProtectedRoute";
 import RoomArea from "./pages/RoomArea";
+import FloorPage from "./pages/FloorPage";
+import Booking from "./pages/Booking";
+import RoomGrid from "./components/RoomGrid";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +19,15 @@ const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { index: true, element: <HomePage /> },
-          { path: "room", element: <RoomArea /> },
+          {
+            path: "/",
+            element: <HomePage />,
+            children: [
+              { index: true, element: <RoomGrid /> },
+              { path: "room", element: <RoomArea /> },
+              { path: "floor", element: <FloorPage /> },
+            ],
+          },
         ],
       },
     ],
