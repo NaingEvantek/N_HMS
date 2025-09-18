@@ -1,4 +1,6 @@
-﻿namespace N_HMS.PayLoad
+﻿using N_HMS.Models;
+
+namespace N_HMS.PayLoad
 {
     public class PayLoadModel
     {
@@ -97,6 +99,24 @@
             public int? CurrencyTypeId { get; set; }
             public int? RoomCapacityAdult { get; set; }
             public int? RoomCapacityChild { get; set; }
+        }
+
+        public class RoomQueryResponse
+        {
+            public int count { get; set; }
+            public string next { get; set; } = "";
+            public List<Room_Info> results { get; set; } = new();
+
+        }
+
+        public class RoomQueryRequest
+        {
+            public int? floorId { get; set; }
+            public int? roomtypeId { get; set; }
+            public int? roomstatusId { get; set; }
+            public string? search { get; set; }
+            public string? orderby { get; set; } = "";
+            public int? page { get; set; } = 1;
         }
         #endregion
 

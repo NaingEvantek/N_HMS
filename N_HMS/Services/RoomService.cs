@@ -80,6 +80,72 @@ namespace N_HMS.Services
             return room;
         }
 
+        public async Task<RoomQueryResponse> SearchRoomAsync(RoomQueryRequest req)
+        {
+            var query = _db.Room_Infos
+            .Include(r => r.Floor)
+            .Include(r => r.Room_Type)
+            .Include(r => r.Room_Status)
+            .Include(r => r.Currency_Type)
+            .AsQueryable();
+
+            //  Filter
+            if (req.floorId.HasValue)
+                query = query.Where(r => r.Floor_Id == req.floorId.Value);
+
+            if (req.roomtypeId.HasValue)
+                query = query.Where(r => r.Room_Type_Id == req.roomtypeId.Value);
+
+            if (req.roomstatusId.HasValue)
+                query = query.Where(r => r.Room_Status_Id == req.roomstatusId.Value);
+
+            if (!string.IsNullOrEmpty(req.search))
+                query = query.Where(r => r.Room_Name.Contains(req.search));
+
+            if (!string.IsNullOrEmpty(req.orderby))
+            {
+                // Sorting map
+                var sortMap = new Dictionary<string, Expression<Func<Room_Info, object>>>(StringComparer.OrdinalIgnoreCase)
+                {
+                    ["roomname"] = r => r.Room_Name,
+                    ["floorname"] = r => r.Floor.Name,
+                    ["roomstatus"] = r => r.Room_Status.Status,
+                    ["roomtype"] = r => r.Room_Type.Name
+                };
+
+                if (sortMap.TryGetValue(req.orderby, out var sortExpr))
+                {
+                    query = query.OrderBy(sortExpr);
+                }
+                else
+                {
+                    query = query.OrderBy(r => r.Id); // default
+                }
+            }
+            else
+            {
+                query = query.OrderBy(r => r.Id);
+            }
+
+            //  Pagination
+            int pageSize = 15;
+            int page = req.page ?? 1;
+            int skip = (page - 1) * pageSize;
+
+            var totalCount = await query.CountAsync();
+            var results = await query
+                .Skip(skip)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new RoomQueryResponse
+            {
+                count = totalCount,
+                next = (skip + pageSize < totalCount) ? (page + 1).ToString() : "",
+                results = results
+            };
+        }
+
         public async Task<PagedResult<RoomDTO>> GetAllRoomsAsync(QueryRequest req)
         {
             var query = _db.Room_Infos
@@ -97,6 +163,7 @@ namespace N_HMS.Services
                 ["roomstatus"] = r => r.Room_Status.Status,
                 ["roomtype"] = r => r.Room_Type.Name
             };
+
 
             // Apply sorting
             if (!string.IsNullOrEmpty(req.SortBy) && sortMap.TryGetValue(req.SortBy, out var sortExpr))

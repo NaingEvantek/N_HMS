@@ -8,7 +8,7 @@ namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    
     public class FloorController : ControllerBase
     {
         private readonly IFloorService _floorService;
@@ -18,7 +18,7 @@ namespace N_HMS.Controllers
             _floorService = floorService;
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateFloor([FromBody] FloorCreateRequest req)
         {
@@ -33,6 +33,7 @@ namespace N_HMS.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateFloor([FromBody] FloorUpdateRequest req)
         {
@@ -48,6 +49,7 @@ namespace N_HMS.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpGet("list")]
         public async Task<IActionResult> ListFloors([FromBody]QueryRequest req)
         {

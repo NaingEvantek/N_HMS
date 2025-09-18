@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using N_HMS.Interfaces;
+using N_HMS.Services;
 using static N_HMS.PayLoad.PayLoadModel;
 
 namespace N_HMS.Controllers
@@ -49,13 +50,21 @@ namespace N_HMS.Controllers
             }
         }
 
-        [HttpGet("list")]
+        [HttpPost("list")]
         [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> ListRooms([FromBody] QueryRequest req)
         {
             var rooms = await _roomservice.GetAllRoomsAsync(req);
 
             return Ok(rooms);
+        }
+
+        [HttpGet("search")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> SearchRooms([FromQuery] RoomQueryRequest req)
+        {
+            var result = await _roomservice.SearchRoomAsync(req);
+            return Ok(result);
         }
     }
 }

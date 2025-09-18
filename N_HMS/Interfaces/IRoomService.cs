@@ -8,6 +8,7 @@ namespace N_HMS.Interfaces
     {
         Task<Room_Info> CreateRoomAsync(RoomCreateRequest req);
         Task<Room_Info?> UpdateRoomAsync(RoomUpdateRequest req);
+        Task<RoomQueryResponse> SearchRoomAsync(RoomQueryRequest req);
         Task<PagedResult<RoomDTO>> GetAllRoomsAsync(QueryRequest req);
     }
 }

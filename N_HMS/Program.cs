@@ -13,7 +13,11 @@ var password = "P@ssword123";
 var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+}); 
 
 builder.Services.AddDbContext<N_HMSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -28,6 +32,26 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new Exception("JWT key missing");
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", policy =>
+//    {
+//        policy.AllowAnyOrigin()
+//              .AllowAnyMethod()
+//              .AllowAnyHeader();
+//    });
+//});
+
+// Add CORS service
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalUI", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")  // UI domain
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -56,7 +80,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+//app.UseCors("AllowAll");
+app.UseCors("LocalUI");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
