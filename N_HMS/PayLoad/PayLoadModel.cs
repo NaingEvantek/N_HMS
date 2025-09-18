@@ -15,6 +15,7 @@ namespace N_HMS.PayLoad
         public class LoginResponse
         {
             public string Token { get; set; } = null!;
+            public string X_Token { get; set; } = null!;
             public string Username { get; set; } = null!;
             public string Role { get; set; } = null!;
         }
@@ -117,6 +118,26 @@ namespace N_HMS.PayLoad
             public string? search { get; set; }
             public string? orderby { get; set; } = "";
             public int? page { get; set; } = 1;
+        }
+
+        public class RoomCheckInRequest
+        {
+            public int roomId { get; set; }
+            public int paymentStatusId { get; set; }
+            public int numOfGuests { get; set; }
+            public int numOfDays { get; set; }
+            public decimal totalAmount { get; set; }
+            public decimal paidAmount { get; set; }
+            public List<RoomCheckInGuest> guests { get; set; } = new();
+        }
+
+        public class RoomCheckInGuest
+        {
+            public string GuestName { get; set; } = "";
+
+            public string PassportNo { get; set; } = "";
+
+            public int? GenderId { get; set; }
         }
         #endregion
 

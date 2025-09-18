@@ -26,6 +26,8 @@ public partial class N_HMSContext : DbContext
 
     public virtual DbSet<Guest_Info> Guest_Infos { get; set; }
 
+    public virtual DbSet<License> Licenses { get; set; }
+
     public virtual DbSet<Payment_Status_Info> Payment_Status_Infos { get; set; }
 
     public virtual DbSet<Role_Info> Role_Infos { get; set; }
@@ -101,6 +103,18 @@ public partial class N_HMSContext : DbContext
             entity.HasOne(d => d.Gender).WithMany(p => p.InverseGender)
                 .HasForeignKey(d => d.Gender_Id)
                 .HasConstraintName("FK_Guest_Info_Guest_Info");
+        });
+
+        modelBuilder.Entity<License>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Licenses__3214EC07CB3430EE");
+
+            entity.Property(e => e.ExpiryDate).HasColumnType("datetime");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.LicenseKey)
+                .IsRequired()
+                .HasMaxLength(100);
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Payment_Status_Info>(entity =>

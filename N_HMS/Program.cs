@@ -9,8 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var password = "P@ssword123";
-var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
+//var password = "P@ssword123";
+//var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -22,7 +22,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddDbContext<N_HMSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
+builder.Services.AddScoped<ILicenseService,LicenseService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFloorService, FloorService>();
@@ -42,12 +42,13 @@ var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 //    });
 //});
 
+var Issuer = builder.Configuration["Jwt:Issuer"]?? throw new InvalidOperationException("Jwt:Issuer is missing in configuration");
 // Add CORS service
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("LocalUI", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")  // UI domain
+        policy.WithOrigins(Issuer)  // UI domain
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -65,7 +66,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidIssuer = Issuer,
         ValidateAudience = false,
         ValidAudience = builder.Configuration["Jwt:Audience"],
         ValidateIssuerSigningKey = true,

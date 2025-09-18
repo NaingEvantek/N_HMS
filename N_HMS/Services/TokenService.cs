@@ -24,8 +24,7 @@ namespace N_HMS.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.User_Name ?? ""),
-                new Claim(ClaimTypes.Name, user.User_Name ?? ""),
-                new Claim(ClaimTypes.Role, roleName ?? "")
+                new Claim("role", roleName ?? "")
             };
 
             var keyBytes = Encoding.UTF8.GetBytes(key);

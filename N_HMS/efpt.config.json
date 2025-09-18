@@ -6,12 +6,12 @@
    "IncludeConnectionString": false,
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Database",
+   "OutputPath": "Models",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "N_HMS",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 2,
-   "SelectedToBeGenerated": 1,
+   "SelectedToBeGenerated": 2,
    "T4TemplatePath": null,
    "Tables": [
       {
@@ -36,6 +36,10 @@
       },
       {
          "Name": "[dbo].[Guest_Info]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Licenses]",
          "ObjectType": 0
       },
       {

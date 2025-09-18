@@ -214,5 +214,124 @@ namespace N_HMS.Services
                 PageSize = req.PageSize
             };
         }
+
+        public async Task CheckInAsync(RoomCheckInRequest req)
+        {
+            // Begin transaction
+            await using var transaction = await _db.Database.BeginTransactionAsync();
+
+            try
+            {
+                // 1️ Find the room
+                var room = await _db.Room_Infos.FindAsync(req.roomId);
+                if (room == null) throw new Exception("Room not found");
+
+                // 2️ Create booking
+                var booking = new Booking_Info
+                {
+                    Room_Id = req.roomId,
+                    CheckIn_Date = DateTime.UtcNow,
+                    Created_Date = DateTime.UtcNow,
+                    Modified_Date = DateTime.UtcNow,
+                    Num_Guests = req.numOfGuests,
+                    Paid_Amount = req.paidAmount,
+                    Total_Amount = req.totalAmount,
+                    Net_Amount = req.totalAmount - req.paidAmount,
+                    No_Of_Days = req.numOfDays,
+                    Payment_Status_Id = req.paymentStatusId
+                };
+                _db.Booking_Infos.Add(booking);
+
+                // 3️ Update room status
+                room.Room_Status_Id = (int)RoomStatusEnum.Occupied;
+
+                await _db.SaveChangesAsync(); // booking.Id is generated here
+
+                // 4️ Handle guests
+                var guestList = new List<Guest_Info>();
+                if (req.guests != null && req.guests.Count > 0)
+                {
+                    foreach (var gu in req.guests)
+                    {
+                        var existingGuest = await _db.Guest_Infos
+                            .FirstOrDefaultAsync(g => g.Name == gu.GuestName && g.Passport_No == gu.PassportNo);
+
+                        if (existingGuest != null)
+                        {
+                            guestList.Add(existingGuest);
+                        }
+                        else
+                        {
+                            var newGuest = new Guest_Info
+                            {
+                                Name = gu.GuestName,
+                                Passport_No = gu.PassportNo,
+                                Gender_Id = gu.GenderId,
+                                Created_Date = DateTime.UtcNow
+                            };
+                            guestList.Add(newGuest);
+                        }
+                    }
+
+                    // Add new guests to DB
+                    var newGuests = guestList.Where(g => g.Id == 0).ToList();
+                    if (newGuests.Any())
+                    {
+                        await _db.Guest_Infos.AddRangeAsync(newGuests);
+                        await _db.SaveChangesAsync(); // ensure IDs are generated
+                    }
+                }
+
+                // 5️ Create booking-guest mappings
+                var mappings = guestList.Select(g => new Booking_Guest_Mapping_Info
+                {
+                    Booking_Id = booking.Id,
+                    Guest_Id = g.Id
+                });
+
+                _db.Booking_Guest_Mapping_Infos.AddRange(mappings);
+                await _db.SaveChangesAsync();
+
+                // Commit transaction
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                // Rollback if any error occurs
+                await transaction.RollbackAsync();
+                throw; 
+            }
+        }
+
+        public async Task CheckOutAsync(int roomId)
+        {
+            // 1️ Find the room
+            var room = await _db.Room_Infos.FindAsync(roomId);
+            if (room == null) throw new Exception("Room not found");
+
+            // 2️ Find active booking
+            var booking = await _db.Booking_Infos
+                .Where(b => b.Room_Id == roomId && b.CheckOut_Date == null)
+                .OrderByDescending(b => b.CheckIn_Date)
+                .FirstOrDefaultAsync();
+            if (booking == null) throw new Exception("No active booking found for this room");
+
+            // 3️ Update booking with check-out details
+            booking.CheckOut_Date = DateTime.UtcNow;
+            booking.Modified_Date = DateTime.UtcNow;
+            // 4️ Update room status to Available
+            room.Room_Status_Id = (int)RoomStatusEnum.Cleaning; // Cleaning
+            // 5️ Save changes
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task CompleteRoomCleaningAsync(int roomId)
+        {
+            var room = await _db.Room_Infos.FindAsync(roomId);
+            if (room == null) throw new Exception("Room not found");
+            room.Room_Status_Id = (int)RoomStatusEnum.Available; // Available
+            room.Modify_Date = DateTime.UtcNow;
+            await _db.SaveChangesAsync();
+        }
     }
 }

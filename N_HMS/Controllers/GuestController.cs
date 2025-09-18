@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using N_HMS.Interfaces;
+using N_HMS.Middlewares;
 using static N_HMS.PayLoad.PayLoadModel;
 
 namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [LicenseRequired]
     public class GuestController : ControllerBase
     {
         private readonly IGuestService _guestService;

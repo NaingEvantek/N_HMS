@@ -19,4 +19,12 @@
         public int? RoomCapacityChild { get; set; }
         public DateTime? ModifyDate { get; set; }
     }
+
+
+    public enum RoomStatusEnum
+    {
+        Available = 1,
+        Occupied = 2,
+        Cleaning = 3
+    }
 }

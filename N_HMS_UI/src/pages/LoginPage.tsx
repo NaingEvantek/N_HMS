@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import logo from "../assets/logo.webp";
-import { HStack, Image, Spinner } from "@chakra-ui/react";
+import {
+  HStack,
+  IconButton,
+  Image,
+  InputGroup,
+  InputRightElement,
+  Spinner,
+} from "@chakra-ui/react";
 import {
   Box,
   Button,
@@ -13,6 +20,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const LoginPage = () => {
   const { login, isAuthenticated } = useAuth();
@@ -22,7 +30,9 @@ const LoginPage = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  const toggleShowPassword = () => setShowPassword(!showPassword);
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -95,19 +105,31 @@ const LoginPage = () => {
 
           <FormControl id="password">
             <FormLabel color={"gray.900"}>Password</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              color="gray.900"
-              bg="white"
-              borderColor={"gray.300"}
-              _placeholder={{ color: "gray.500" }}
-              variant="filled"
-              disabled={isLoading}
-              required
-            />
+            <InputGroup>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                color="gray.900"
+                bg="white"
+                borderColor={"gray.300"}
+                _placeholder={{ color: "gray.500" }}
+                variant="filled"
+                disabled={isLoading}
+                required
+              />
+              <InputRightElement>
+                <IconButton
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  icon={showPassword ? <FiEyeOff /> : <FiEye />}
+                  size="sm"
+                  onClick={toggleShowPassword}
+                  variant="ghost"
+                  color={"gray.800"}
+                />
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
 
           <Button

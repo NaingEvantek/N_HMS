@@ -2,12 +2,12 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import React from "react";
 import SideBar from "../components/SideBar";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const HomePage = () => {
-  const role = localStorage.getItem("role");
-
-  // 👉 hide sidebar if role is "Admin"
-  const showSidebar = role !== "User";
+  const { user } = useAuth();
+  console.log(user);
+  const showSidebar = user?.role !== "User";
 
   return (
     <Grid

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { getUserFromToken } from "../utils/jwt";
 
 interface User {
   username: string;
@@ -12,9 +13,14 @@ interface AuthState {
   clearAuth: () => void;
 }
 
+const storedToken = localStorage.getItem("token");
+const decodedUser = storedToken ? getUserFromToken(storedToken) : null;
+
 const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
+  token: storedToken,
+  user: decodedUser
+    ? { username: decodedUser.unique_name, role: decodedUser.role }
+    : null,
   setAuth: (user, token) => set({ user, token }),
   clearAuth: () => set({ user: null, token: null }),
 }));

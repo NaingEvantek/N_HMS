@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using N_HMS.Interfaces;
+using N_HMS.Middlewares;
 using N_HMS.Services;
 using static N_HMS.PayLoad.PayLoadModel;
 
@@ -9,6 +10,7 @@ namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [LicenseRequired]
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomservice;
@@ -65,6 +67,21 @@ namespace N_HMS.Controllers
         {
             var result = await _roomservice.SearchRoomAsync(req);
             return Ok(result);
+        }
+
+        [HttpPost("checkin")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> CheckIn([FromBody] RoomCheckInRequest req)
+        {
+            try
+            {
+                await _roomservice.CheckInAsync(req);
+                return Ok(new { message = "Check-in successful" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
     }
 }

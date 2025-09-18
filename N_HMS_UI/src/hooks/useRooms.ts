@@ -17,7 +17,7 @@ const apiClient = new APIClient<Room>("/room/search");
 const useRooms = () => {
   const roomQuery = useRoomQueryStore((s) => s.roomQuery);
   return useInfiniteQuery<FetchResponse<RoomInfo>, Error>({
-    queryKey: ["games", roomQuery],
+    queryKey: ["rooms", roomQuery],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
