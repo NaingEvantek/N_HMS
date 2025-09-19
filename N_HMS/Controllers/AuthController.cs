@@ -16,12 +16,10 @@ namespace N_HMS.Controllers
     {
         private readonly N_HMSContext _db;
         private readonly ITokenService _tokenService;
-        private readonly ILicenseService _licenseService;
-        public AuthController(N_HMSContext db, ITokenService tokenService,ILicenseService licenseService)
+        public AuthController(N_HMSContext db, ITokenService tokenService)
         {
             _db = db;
             _tokenService = tokenService;
-            _licenseService = licenseService;
         }
 
         [HttpPost("login")]
@@ -55,29 +53,29 @@ namespace N_HMS.Controllers
 
             var token = _tokenService.CreateToken(user, user.Role?.Name ?? "User");
 
-            // 2️⃣ Fetch or create license for user
-            var license = await _db.Licenses.FirstOrDefaultAsync(l => l.UserId == user.Id && l.IsActive);
-            if (license == null)
-            {
-                license = new License
-                {
-                    UserId = user.Id,
-                    LicenseKey = Guid.NewGuid().ToString(),
-                    StartDate = DateTime.UtcNow,
-                    ExpiryDate = DateTime.UtcNow.AddYears(1),
-                    IsActive = true
-                };
-                _db.Licenses.Add(license);
-                await _db.SaveChangesAsync();
-            }
+            //// 2️ Fetch or create license for user
+            //var license = await _db.Licenses.FirstOrDefaultAsync(l => l.UserId == user.Id && l.IsActive);
+            //if (license == null)
+            //{
+            //    license = new License
+            //    {
+            //        UserId = user.Id,
+            //        LicenseKey = Guid.NewGuid().ToString(),
+            //        StartDate = DateTime.UtcNow,
+            //        ExpiryDate = DateTime.UtcNow.AddYears(1),
+            //        IsActive = true
+            //    };
+            //    _db.Licenses.Add(license);
+            //    await _db.SaveChangesAsync();
+            //}
 
-            // 3️ Generate license JWT
-            var licenseToken = _licenseService.GenerateLicenseToken(license);
+            //// 3️ Generate license JWT
+            //var licenseToken = _licenseService.GenerateLicenseToken(license);
 
             var resp = new LoginResponse
             {
                 Token = token,// User JWT
-                X_Token = licenseToken, // License JWT
+             //   X_Token = licenseToken, // License JWT
                 Username = user.User_Name ?? "",
                 Role = user.Role?.Name ?? ""
             };

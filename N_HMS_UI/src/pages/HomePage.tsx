@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const HomePage = () => {
   const { user } = useAuth();
-  console.log(user);
+
   const showSidebar = user?.role !== "User";
 
   return (

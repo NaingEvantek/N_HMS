@@ -9,7 +9,6 @@ namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [LicenseRequired]
     public class FloorController : ControllerBase
     {
         private readonly IFloorService _floorService;
@@ -56,6 +55,15 @@ namespace N_HMS.Controllers
         {
             var floors = await _floorService.GetAllFloorsAsync(req);
            
+            return Ok(floors);
+        }
+
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetFilterFloors()
+        {
+            var floors = await _floorService.GetFilterFloorsAsync();
+
             return Ok(floors);
         }
     }

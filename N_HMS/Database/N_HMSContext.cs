@@ -64,6 +64,10 @@ public partial class N_HMSContext : DbContext
             entity.HasOne(d => d.Payment_Status).WithMany(p => p.Booking_Infos)
                 .HasForeignKey(d => d.Payment_Status_Id)
                 .HasConstraintName("FK_Booking_Info_Payment_Status_Info");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.Booking_Infos)
+                .HasForeignKey(d => d.Room_Id)
+                .HasConstraintName("FK_Booking_Info_Room_Info");
         });
 
         modelBuilder.Entity<Currency_Type>(entity =>

@@ -39,6 +39,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Licenses]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Payment_Status_Info]",
          "ObjectType": 0
       },

@@ -17,6 +17,16 @@
   },
   {
     "ContainingType": "N_HMS.Controllers.FloorController",
+    "Method": "GetFilterFloors",
+    "RelativePath": "api/Floor/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.FloorController",
     "Method": "CreateFloor",
     "RelativePath": "api/Floor/create",
     "HttpMethod": "POST",
@@ -113,6 +123,54 @@
   },
   {
     "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "CheckIn",
+    "RelativePath": "api/Room/checkin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "N_HMS.PayLoad.PayLoadModel\u002BRoomCheckInRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "CheckOut",
+    "RelativePath": "api/Room/checkout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "room_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "CompleteCleaning",
+    "RelativePath": "api/Room/clean",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "room_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
     "Method": "CreateRoom",
     "RelativePath": "api/Room/create",
     "HttpMethod": "POST",
@@ -141,6 +199,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "N_HMS.Controllers.RoomController",
+    "Method": "GetRoomTypes",
+    "RelativePath": "api/Room/room-types",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

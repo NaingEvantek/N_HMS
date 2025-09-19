@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -7,14 +7,18 @@ import {
   VStack,
   Button,
   Badge,
+  Spinner,
 } from "@chakra-ui/react";
-import RoomInfo from "../entities/Room";
+
+import RoomWithBookingDto, { RoomStatusEnum } from "../entities/Room";
 
 interface RoomCardProps {
-  room: RoomInfo;
-  onCheckIn: (room: RoomInfo) => void;
-  onCheckOut: (room: RoomInfo) => void;
-  onCompleteCleaning: (room: RoomInfo) => void;
+  room: RoomWithBookingDto;
+  onCheckIn: (room: RoomWithBookingDto) => void;
+  onCheckOut: (room: RoomWithBookingDto) => void;
+  onCompleteCleaning: (room: RoomWithBookingDto) => void;
+  isCheckingOut?: boolean;
+  isCleaning?: boolean;
 }
 
 const RoomCard: React.FC<RoomCardProps> = ({
@@ -22,12 +26,17 @@ const RoomCard: React.FC<RoomCardProps> = ({
   onCheckIn,
   onCheckOut,
   onCompleteCleaning,
+  isCheckingOut,
+  isCleaning,
 }) => {
   // 🔹 Status-based colors
   let statusColor = "green.400";
-  if (room.room_Status?.status === "Cleaning") statusColor = "yellow.400";
-  if (room.room_Status?.status === "Occupied") statusColor = "red.400";
+  if (room.roomInfo.room_Status?.status === RoomStatusEnum.Cleaning)
+    statusColor = "yellow.400";
+  if (room.roomInfo.room_Status?.status === RoomStatusEnum.Occupied)
+    statusColor = "red.400";
 
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Box
       borderRadius="md"
@@ -49,7 +58,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
         color="black"
         textAlign="center"
       >
-        {room.room_Name}
+        {room.roomInfo.room_Name}
       </Heading>
 
       <VStack spacing={1} align="start" mb={3}>
@@ -60,22 +69,25 @@ const RoomCard: React.FC<RoomCardProps> = ({
           <Badge
             fontSize={"2xs"}
             colorScheme={
-              room.room_Status?.status === "Free"
+              room.roomInfo.room_Status?.status === RoomStatusEnum.Available
                 ? "green"
-                : room.room_Status?.status === "Cleaning"
+                : room.roomInfo.room_Status?.status === RoomStatusEnum.Cleaning
                 ? "yellow"
                 : "red"
             }
           >
-            {room.room_Status?.status || "Free"}
+            {room.roomInfo.room_Status?.status || RoomStatusEnum.Available}
           </Badge>
         </HStack>
         <Text fontSize={"2xs"} margin={0}>
-          Room Type : {room.room_Type?.name ?? ""}
+          Room Type : {room.roomInfo.room_Type?.name ?? ""}
         </Text>
         <Text fontSize={"2xs"} margin={0}>
-          Capacity (adult,child) : {room.room_Capacity_Adult ?? 0},{" "}
-          {room.room_Capacity_Child ?? 0}
+          Capacity (adult,child) : {room.roomInfo.room_Capacity_Adult ?? 0},{" "}
+          {room.roomInfo.room_Capacity_Child ?? 0}
+        </Text>
+        <Text fontSize={"2xs"} margin={0}>
+          Price per day : {room.roomInfo.price_Per_Day ?? 0}
         </Text>
       </VStack>
 
@@ -85,7 +97,11 @@ const RoomCard: React.FC<RoomCardProps> = ({
           colorScheme="green"
           onClick={() => onCheckIn(room)}
           w="100%"
-          display={room.room_Status?.status !== "Free" ? "none" : "block"}
+          display={
+            room.roomInfo.room_Status?.status !== RoomStatusEnum.Available
+              ? "none"
+              : "block"
+          }
         >
           Check In
         </Button>
@@ -94,20 +110,26 @@ const RoomCard: React.FC<RoomCardProps> = ({
           size="sm"
           colorScheme="red"
           onClick={() => onCheckOut(room)}
+          isDisabled={isCheckingOut}
           w="100%"
-          display={room.room_Status?.status !== "Occupied" ? "none" : "block"}
+          display={
+            room.roomInfo.room_Status?.status !== RoomStatusEnum.Occupied
+              ? "none"
+              : "block"
+          }
         >
-          Check Out
+          {isCheckingOut ? <Spinner /> : "Check Out"}
         </Button>
 
-        {room.room_Status?.status === "Cleaning" && (
+        {room.roomInfo.room_Status?.status === RoomStatusEnum.Cleaning && (
           <Button
             size="sm"
             colorScheme="blue"
             w="100%"
             onClick={() => onCompleteCleaning(room)}
+            isDisabled={isCleaning}
           >
-            Complete Cleaning
+            {isCleaning ? <Spinner size="sm" /> : "Complete Cleaning"}
           </Button>
         )}
       </HStack>

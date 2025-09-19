@@ -32,4 +32,6 @@ public partial class Booking_Info
     public DateTime? Modified_Date { get; set; }
 
     public virtual Payment_Status_Info Payment_Status { get; set; }
+
+    public virtual Room_Info Room { get; set; }
 }

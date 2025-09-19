@@ -17,6 +17,21 @@ namespace N_HMS.Services
             _db = db;
         }
 
+        #region Room Type
+        public async Task<List<RoomTypeSelectDTO>> GetRoomTypesAsync()
+        {
+           var roomTypes = await _db.Room_Type_Infos
+                .OrderBy(rt => rt.Name)
+                .Select(rt => new RoomTypeSelectDTO
+                {
+                    Id = rt.Id,
+                    Name = rt.Name
+                })
+                .ToListAsync();
+            return roomTypes;
+        }
+        #endregion
+
         public async Task<Room_Info> CreateRoomAsync(RoomCreateRequest req)
         {
             if (await _db.Room_Infos.AnyAsync(f => f.Room_Name == req.RoomName))
@@ -83,60 +98,61 @@ namespace N_HMS.Services
         public async Task<RoomQueryResponse> SearchRoomAsync(RoomQueryRequest req)
         {
             var query = _db.Room_Infos
-            .Include(r => r.Floor)
-            .Include(r => r.Room_Type)
-            .Include(r => r.Room_Status)
-            .Include(r => r.Currency_Type)
-            .AsQueryable();
+                .Include(r => r.Floor)
+                .Include(r => r.Room_Type)
+                .Include(r => r.Room_Status)
+                .Include(r => r.Currency_Type)
+                .Select(r => new RoomWithBookingDto
+                {
+                    Room = r,
+                    ActiveBooking = r.Booking_Infos
+                        .Where(b => b.CheckOut_Date == null)
+                        .OrderByDescending(b => b.CheckIn_Date)
+                        .FirstOrDefault()
+                })
+                .AsQueryable();
 
-            //  Filter
-            if (req.floorId.HasValue)
-                query = query.Where(r => r.Floor_Id == req.floorId.Value);
+            // Filters
+            if (req.floorId.HasValue && req.floorId > 0)
+                query = query.Where(x => x.Room.Floor_Id == req.floorId.Value);
 
-            if (req.roomtypeId.HasValue)
-                query = query.Where(r => r.Room_Type_Id == req.roomtypeId.Value);
+            if (req.roomtypeId.HasValue && req.roomtypeId > 0)
+                query = query.Where(x => x.Room.Room_Type_Id == req.roomtypeId.Value);
 
-            if (req.roomstatusId.HasValue)
-                query = query.Where(r => r.Room_Status_Id == req.roomstatusId.Value);
+            if (req.roomstatusId.HasValue && req.roomstatusId > 0)
+                query = query.Where(x => x.Room.Room_Status_Id == req.roomstatusId.Value);
 
             if (!string.IsNullOrEmpty(req.search))
-                query = query.Where(r => r.Room_Name.Contains(req.search));
+                query = query.Where(x => x.Room.Room_Name.Contains(req.search));
 
+            // Sorting
             if (!string.IsNullOrEmpty(req.orderby))
             {
-                // Sorting map
-                var sortMap = new Dictionary<string, Expression<Func<Room_Info, object>>>(StringComparer.OrdinalIgnoreCase)
+                var sortMap = new Dictionary<string, Expression<Func<RoomWithBookingDto, object>>>(StringComparer.OrdinalIgnoreCase)
                 {
-                    ["roomname"] = r => r.Room_Name,
-                    ["floorname"] = r => r.Floor.Name,
-                    ["roomstatus"] = r => r.Room_Status.Status,
-                    ["roomtype"] = r => r.Room_Type.Name
+                    ["roomname"] = x => x.Room.Room_Name,
+                    ["floorname"] = x => x.Room.Floor.Name,
+                    ["roomstatus"] = x => x.Room.Room_Status.Status,
+                    ["roomtype"] = x => x.Room.Room_Type.Name
                 };
 
                 if (sortMap.TryGetValue(req.orderby, out var sortExpr))
-                {
                     query = query.OrderBy(sortExpr);
-                }
                 else
-                {
-                    query = query.OrderBy(r => r.Id); // default
-                }
+                    query = query.OrderBy(x => x.Room.Id);
             }
             else
             {
-                query = query.OrderBy(r => r.Id);
+                query = query.OrderBy(x => x.Room.Id);
             }
 
-            //  Pagination
+            // Pagination
             int pageSize = 15;
             int page = req.page ?? 1;
             int skip = (page - 1) * pageSize;
 
             var totalCount = await query.CountAsync();
-            var results = await query
-                .Skip(skip)
-                .Take(pageSize)
-                .ToListAsync();
+            var results = await query.Skip(skip).Take(pageSize).ToListAsync();
 
             return new RoomQueryResponse
             {
@@ -214,6 +230,8 @@ namespace N_HMS.Services
                 PageSize = req.PageSize
             };
         }
+
+
 
         public async Task CheckInAsync(RoomCheckInRequest req)
         {
@@ -305,23 +323,26 @@ namespace N_HMS.Services
 
         public async Task CheckOutAsync(int roomId)
         {
-            // 1️ Find the room
             var room = await _db.Room_Infos.FindAsync(roomId);
+
             if (room == null) throw new Exception("Room not found");
 
-            // 2️ Find active booking
-            var booking = await _db.Booking_Infos
-                .Where(b => b.Room_Id == roomId && b.CheckOut_Date == null)
-                .OrderByDescending(b => b.CheckIn_Date)
-                .FirstOrDefaultAsync();
-            if (booking == null) throw new Exception("No active booking found for this room");
+            var book = await _db.Booking_Infos.FirstOrDefaultAsync(b => b.Room_Id == roomId && b.CheckOut_Date == null);
 
-            // 3️ Update booking with check-out details
-            booking.CheckOut_Date = DateTime.UtcNow;
-            booking.Modified_Date = DateTime.UtcNow;
-            // 4️ Update room status to Available
+            if (book == null)
+                if (book == null) throw new Exception("Booking information not found!");
+
+
+            book.CheckOut_Date = DateTime.UtcNow;
+            if (book.Payment_Status_Id == (int)PaymentStatusEnum.Unpaid)
+                book.Payment_Status_Id = (int)PaymentStatusEnum.Paid;
+
+            book.Modified_Date = DateTime.UtcNow;
+            await _db.SaveChangesAsync();
+
+            //  Update room status to Available
             room.Room_Status_Id = (int)RoomStatusEnum.Cleaning; // Cleaning
-            // 5️ Save changes
+            //  Save changes
             await _db.SaveChangesAsync();
         }
 

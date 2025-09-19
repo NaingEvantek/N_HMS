@@ -10,7 +10,6 @@ namespace N_HMS.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    [LicenseRequired]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

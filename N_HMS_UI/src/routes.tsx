@@ -8,6 +8,7 @@ import RoomArea from "./pages/RoomArea";
 import FloorPage from "./pages/FloorPage";
 import Booking from "./pages/Booking";
 import RoomGrid from "./components/RoomGrid";
+import CheckInPage from "./pages/CheckInPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
               { index: true, element: <RoomGrid /> },
               { path: "room", element: <RoomArea /> },
               { path: "floor", element: <FloorPage /> },
+              { path: "checkin/:roomId", element: <CheckInPage /> },
             ],
           },
         ],

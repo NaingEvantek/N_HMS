@@ -1,4 +1,5 @@
-﻿using N_HMS.Models;
+﻿using N_HMS.DTO;
+using N_HMS.Models;
 
 namespace N_HMS.PayLoad
 {
@@ -15,7 +16,7 @@ namespace N_HMS.PayLoad
         public class LoginResponse
         {
             public string Token { get; set; } = null!;
-            public string X_Token { get; set; } = null!;
+        //    public string X_Token { get; set; } = null!;
             public string Username { get; set; } = null!;
             public string Role { get; set; } = null!;
         }
@@ -106,7 +107,7 @@ namespace N_HMS.PayLoad
         {
             public int count { get; set; }
             public string next { get; set; } = "";
-            public List<Room_Info> results { get; set; } = new();
+            public List<RoomWithBookingDto> results { get; set; } = new();
 
         }
 

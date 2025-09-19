@@ -1,13 +1,11 @@
+import { BookingInfo } from "./Booking";
+import FloorInfo from "./Floor";
+
 export interface CurrencyType {
   id: number;
   name: string;
   code: string;
   symbol: string;
-}
-
-export interface FloorInfo {
-  id: number;
-  name: string;
 }
 
 export interface RoomStatus {
@@ -20,7 +18,7 @@ export interface RoomTypeInfo {
   name: string;
 }
 
-export default interface RoomInfo {
+export interface RoomInfo {
   id: number;
   room_Name: string;
   floor_Id?: number;
@@ -37,4 +35,31 @@ export default interface RoomInfo {
   floor?: FloorInfo;
   room_Status?: RoomStatus;
   room_Type?: RoomTypeInfo;
+}
+
+export default interface RoomWithBookingDto {
+  roomInfo: RoomInfo;
+  bookingInfo: BookingInfo;
+}
+
+export interface RoomCheckInGuest {
+  guestName: string;
+  passportNo: string;
+  genderId?: number;
+}
+
+export interface RoomCheckInRequest {
+  roomId: number;
+  paymentStatusId: number; // e.g., 1 = Paid, 2 = Pending
+  numOfGuests: number;
+  numOfDays: number;
+  totalAmount: number;
+  paidAmount: number;
+  guests: RoomCheckInGuest[];
+}
+
+export enum RoomStatusEnum {
+  Available = "Available",
+  Cleaning = "Cleaning",
+  Occupied = "Occupied",
 }

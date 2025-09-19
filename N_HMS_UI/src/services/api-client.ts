@@ -32,6 +32,12 @@ class APIClient<T> {
     this.endpoint = endpoint;
   }
 
+  getFilter = (config: AxiosRequestConfig) => {
+    return axiosInstance
+      .get<T[]>(this.endpoint, config)
+      .then((res) => res.data);
+  };
+
   getAll = (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<FetchResponse<T>>(this.endpoint, config)
@@ -50,9 +56,29 @@ class APIClient<T> {
       .then((res) => res.data);
   };
 
+  // CREATE (POST /endpoint)
+  create = (data: Partial<T>) => {
+    return axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
+  };
+
+  // UPDATE (PUT /endpoint/{id})
+  update = (data: Partial<T> & { id: number | string }) => {
+    return axiosInstance
+      .put<T>(`${this.endpoint}/${data.id}`, data)
+      .then((res) => res.data);
+  };
+
+  // CUSTOM POST for sub-endpoints (like checkin)
+  postTo = (subEndpoint: string, data: any) => {
+    return axiosInstance
+      .post(`${this.endpoint}/${subEndpoint}`, data)
+      .then((res) => res.data);
+  };
+
   post = (data: any) => {
     return axiosInstance.post<T>(this.endpoint, data).then((res) => res.data);
   };
 }
 
+export { axios };
 export default APIClient;

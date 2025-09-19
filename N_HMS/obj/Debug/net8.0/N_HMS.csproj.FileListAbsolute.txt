@@ -169,3 +169,5 @@ D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.pdb
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.genruntimeconfig.cache
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\ref\N_HMS.dll
 D:\Github\Naing\N_HMS\N_HMS\obj\Debug\net8.0\N_HMS.sourcelink.json
+D:\Github\Naing\N_HMS\N_HMS\bin\Debug\net8.0\AutoMapper.dll
+D:\Github\Naing\N_HMS\N_HMS\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

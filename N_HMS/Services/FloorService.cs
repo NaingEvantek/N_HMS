@@ -51,6 +51,17 @@ namespace N_HMS.Services
             return floor;
         }
 
+        public async Task<List<FloorSelectDTO>> GetFilterFloorsAsync()
+        {
+              return await _db.Floor_Infos
+                .OrderBy(f => f.Name)
+                .Select(f => new FloorSelectDTO
+                {
+                    Id = f.Id,
+                    FloorName = f.Name
+                })
+                .ToListAsync();
+        }
         public async Task<PagedResult<FloorDTO>> GetAllFloorsAsync(QueryRequest req)
         {
             var query = _db.Floor_Infos.AsQueryable();

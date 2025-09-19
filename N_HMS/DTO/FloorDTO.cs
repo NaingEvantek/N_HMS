@@ -8,4 +8,10 @@
 
         public DateTime ModifiedDate { get; set; }
     }
+
+    public class FloorSelectDTO
+    {
+        public int Id { get; set; }
+        public string FloorName { get; set; } = null!;
+    }
 }

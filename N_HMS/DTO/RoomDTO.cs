@@ -1,4 +1,6 @@
-﻿namespace N_HMS.DTO
+﻿using N_HMS.Models;
+
+namespace N_HMS.DTO
 {
     public class RoomDTO
     {
@@ -20,11 +22,43 @@
         public DateTime? ModifyDate { get; set; }
     }
 
+    public class RoomWithBookingDto
+    {
+        public Room_Info Room { get; set; } = new();
+        public Booking_Info? ActiveBooking { get; set; } = new();
+    }
 
+
+    public class RoomTypeSelectDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+
+    public class RoomCustomDTO
+    {
+        public int Id { get; set; }
+        public string RoomName { get; set; }
+        public decimal? PricePerDay { get; set; }
+        public int? RoomCapacityAdult { get; set; }
+        public int? RoomCapacityChild { get; set; }
+
+        // Readable names from navigation properties
+        public string FloorName { get; set; } = string.Empty;
+        public string RoomTypeName { get; set; } = string.Empty;
+        public string RoomStatusName { get; set; } = string.Empty;
+        public string CurrencyCode { get; set; } = string.Empty;
+    }
     public enum RoomStatusEnum
     {
         Available = 1,
         Occupied = 2,
         Cleaning = 3
+    }
+
+    public enum PaymentStatusEnum
+    {
+        Paid =1,
+        Unpaid=2
     }
 }

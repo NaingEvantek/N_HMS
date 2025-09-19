@@ -27,6 +27,8 @@ public partial class Room_Info
 
     public DateTime? Modify_Date { get; set; }
 
+    public virtual ICollection<Booking_Info> Booking_Infos { get; set; } = new List<Booking_Info>();
+
     public virtual Currency_Type Currency_Type { get; set; }
 
     public virtual Floor_Info Floor { get; set; }

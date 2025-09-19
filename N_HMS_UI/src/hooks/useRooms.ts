@@ -1,11 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import APIClient, { FetchResponse } from "../services/api-client";
-import Room from "../entities/Room";
 import ms from "ms";
 import useRoomQueryStore from "../store/useRoomQueryStore";
-import RoomInfo from "../entities/Room";
+import RoomWithBookingDto from "../entities/Room";
 
-const apiClient = new APIClient<Room>("/room/search");
+const apiClient = new APIClient<RoomWithBookingDto>("/room/search");
 
 // export const useRooms = (req: QueryRequest) =>
 //   useQuery<FetchResponse<Room>, Error>({
@@ -16,7 +15,7 @@ const apiClient = new APIClient<Room>("/room/search");
 
 const useRooms = () => {
   const roomQuery = useRoomQueryStore((s) => s.roomQuery);
-  return useInfiniteQuery<FetchResponse<RoomInfo>, Error>({
+  return useInfiniteQuery<FetchResponse<RoomWithBookingDto>, Error>({
     queryKey: ["rooms", roomQuery],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({

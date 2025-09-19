@@ -9,7 +9,6 @@ namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [LicenseRequired]
     public class GuestController : ControllerBase
     {
         private readonly IGuestService _guestService;

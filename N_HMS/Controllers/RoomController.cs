@@ -10,7 +10,6 @@ namespace N_HMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [LicenseRequired]
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomservice;
@@ -19,7 +18,15 @@ namespace N_HMS.Controllers
         {
             _roomservice = roomService;
         }
-
+        #region Room Type
+        [HttpGet("room-types")]
+        [Authorize(Roles ="Admin,User")]
+        public async Task<IActionResult> GetRoomTypes()
+        {
+           
+            return Ok(await _roomservice.GetRoomTypesAsync());
+        }
+        #endregion
 
         [HttpPost("create")]
         [Authorize(Roles = "Admin")]
@@ -77,6 +84,36 @@ namespace N_HMS.Controllers
             {
                 await _roomservice.CheckInAsync(req);
                 return Ok(new { message = "Check-in successful" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPost("checkout")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> CheckOut([FromQuery] int room_id)
+        {
+            try
+            {
+                await _roomservice.CheckOutAsync(room_id);
+                return Ok(new { message = "Check-out successful" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPost("clean")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> CompleteCleaning([FromQuery] int room_id)
+        {
+            try
+            {
+                await _roomservice.CompleteRoomCleaningAsync(room_id);
+                return Ok(new { message = "Room cleaning done." });
             }
             catch (Exception ex)
             {

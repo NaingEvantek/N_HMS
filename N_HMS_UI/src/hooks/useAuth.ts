@@ -1,9 +1,16 @@
 // src/hooks/useAuth.ts
 import { useEffect } from "react";
-import APIClient from "../services/api-client";
+import APIClient, { axios } from "../services/api-client";
 import { AuthResponse } from "../entities/User";
 import useAuthStore from "../store/authStore";
 import { getUserFromToken, JwtPayload } from "../utils/jwt";
+
+export enum ErrorMessages {
+  InvalidToken = "Invalid token received from server",
+  LoginFailed = "Login failed",
+  Unauthorized = "Unauthorized",
+  Forbidden = "Access forbidden",
+}
 
 const apiClient = new APIClient<AuthResponse>("/Auth/login");
 
@@ -30,6 +37,7 @@ export function useAuth() {
   const login = async (username: string, password: string) => {
     try {
       const response = await apiClient.post({ username, password });
+
       const decoded = getUserFromToken(response.token);
       if (!decoded) throw new Error("Invalid token received from server");
 
@@ -38,8 +46,14 @@ export function useAuth() {
         response.token
       );
       localStorage.setItem("token", response.token);
-    } catch (error) {
-      console.error("Login failed:", error);
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        throw new Error(ErrorMessages.Unauthorized);
+      } else if (axios.isAxiosError(error) && error.response?.status === 403) {
+        throw new Error(ErrorMessages.Forbidden);
+      }
+
+      console.error(ErrorMessages.LoginFailed, error);
       throw error;
     }
   };
